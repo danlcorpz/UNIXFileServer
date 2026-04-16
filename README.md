@@ -9,7 +9,10 @@
 
    ./server &
 
-3. Finally, run the client file and use the two argument:
+3. Run the client file and use the two argument:
 
   ./client 127.0.0.1 testfile.txt downloaded.txt 
-  
+
+4. Finally, make sure to kill the server when youre done!
+
+  pkill server
