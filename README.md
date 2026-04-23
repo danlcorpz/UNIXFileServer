@@ -11,7 +11,7 @@
 
 3. Run the client file and use the two argument:
 
-  ./client 127.0.0.1 testfile.txt downloaded.txt 
+  ./client 127.0.0.1 testfile.txt downloaded.txt  (testfile contents -> overwrites downloaded)
 
 4. Finally, make sure to kill the server when youre done!
 
