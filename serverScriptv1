@@ -1,0 +1,44 @@
+#!/bin/bash
+
+SERVER_SRC="server.c"
+SERVER_BIN="./server"
+PORT=3490
+
+gcc "$SERVER_SRC" -o server
+if [ $? -ne 0 ]; then
+    echo "Compilation failed"
+    exit 1
+fi
+
+echo "=============================="
+echo "Detecting server IP address..."
+echo "=============================="
+
+# Get primary non-loopback, non-link-local IP
+SERVER_IP=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i !~ /^127/ && $i !~ /^169\.254/) {print $i; exit}}')
+
+echo "Server IP: $SERVER_IP"
+echo "Port: $PORT"
+echo ""
+
+echo "=============================="
+echo "Starting server..."
+echo "=============================="
+
+$SERVER_BIN &
+SERVER_PID=$!
+echo "Waiting for client transfers..."
+echo "Press ENTER when done (or script will exit and kill server)."
+
+read -r
+
+echo ""
+echo "Stopping server..."
+
+kill $SERVER_PID 2>/dev/null
+
+# ensure it's dead
+sleep 1
+kill -9 $SERVER_PID 2>/dev/null
+
+echo "Server stopped."

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+	echo "Usage: $0 <server_ip> <source_file> <destination_file>"
+	exit 1
+fi
+
+SERVER_IP=$1
+SOURCE_FILE=$2
+DEST_FILE=$3
+
+echo "Compiling server and client..."
+gcc server.c -o server
+gcc client.c -o client
+
+if [ $? -ne 0 ]; then
+	echo "Compilation failed."
+	exit 1
+fi
+
+echo "Starting server in background..."
+./server&
+SERVER_PID=$!
+
+sleep 1
+
+echo "Running client..."
+./client "$SERVER_IP" "$SOURCE_FILE" "$DEST_FILE"
+
+echo "Stopping server..."
+kill $SERVER_PID
+
+echo "Done."

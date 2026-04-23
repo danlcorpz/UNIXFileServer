@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Prompt for server IP
+read -p "Enter server IP address: " SERVER_IP
+
+# Prompt for remote file path
+read -p "Enter remote file name (on server): " REMOTE_FILE
+
+# Prompt for local file name (where to save)
+read -p "Enter local file name (destination): " LOCAL_FILE
+
+# Run the client
+./client "$SERVER_IP" "$REMOTE_FILE" "$LOCAL_FILE"
+
+# Check exit status
+if [ $? -eq 0 ]; then
+    echo "File transfer completed successfully."
+else
+    echo "File transfer failed."
+fi
